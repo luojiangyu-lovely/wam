@@ -1,31 +1,35 @@
-import { AuthProvider, HttpError } from "react-admin";
-import data from "./users.json";
+import { AuthProvider, HttpError ,fetchUtils} from "react-admin";
 
 /**
  * This authProvider is only for test purposes. Don't use it in production.
  */
+
 export const authProvider: AuthProvider = {
-  login: ({ username, password }) => {
-    const user = data.users.find(
-      (u) => u.username === username && u.password === password
-    );
-
-    if (user) {
-      // eslint-disable-next-line no-unused-vars
-      let { password, ...userToPersist } = user;
-      localStorage.setItem("user", JSON.stringify(userToPersist));
-      return Promise.resolve();
-    }
-
-    return Promise.reject(
-      new HttpError("Unauthorized", 401, {
-        message: "Invalid username or password",
-      })
-    );
+  login: async({ username, password }) => {
+    const request = new Request('http://192.168.1.59:5007/login', {
+      method: 'POST',
+      body: JSON.stringify({ username, password }),
+      headers: new Headers({ 'Content-Type': 'application/json' }),
+  });
+  return fetch(request)
+  .then(response => {
+    console.log(response)
+      if (response.status < 200 || response.status >= 300) {
+        console.log(response.statusText)
+          throw new Error('账号或者密码错误！');
+      }
+      return response.json();
+  })
+  .then(auth => {
+      localStorage.setItem('user', JSON.stringify(auth));
+  })
+  .catch(() => {
+      throw new Error('Network error')
+  });
   },
   logout: () => {
     localStorage.removeItem("user");
-    return Promise.resolve();
+    return Promise.resolve(); 
   },
   checkError: () => Promise.resolve(),
   checkAuth: () =>
