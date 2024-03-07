@@ -13,9 +13,7 @@ export const authProvider: AuthProvider = {
   });
   return fetch(request)
   .then(response => {
-    console.log(response)
       if (response.status < 200 || response.status >= 300) {
-        console.log(response.statusText)
           throw new Error('账号或者密码错误！');
       }
       return response.json();
@@ -23,9 +21,7 @@ export const authProvider: AuthProvider = {
   .then(auth => {
       localStorage.setItem('user', JSON.stringify(auth));
   })
-  .catch(() => {
-      throw new Error('Network error')
-  });
+
   },
   logout: () => {
     localStorage.removeItem("user");

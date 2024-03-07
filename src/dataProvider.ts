@@ -15,7 +15,7 @@ export const dataProvider: DataProvider = {
         };
         const url = `${apiUrl}/${resource}?${stringify(query)}`;
 
-        return httpClient(url).then(({json }) => ({
+        return httpClient(url).then(({ headers, json }) => ({
             data: json.data,
             total: json.total,
         }));
@@ -83,7 +83,6 @@ export const dataProvider: DataProvider = {
         }).then(({ json }) => ({ data: json })),
 
     deleteMany: (resource, params) => {
-        console.log(111)
         const query = {
             filter: JSON.stringify({ id: params.ids}),
         };
