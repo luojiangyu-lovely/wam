@@ -1,6 +1,6 @@
 import { DataProvider, fetchUtils } from "react-admin";
 import { stringify } from "query-string";
-
+import {message } from 'antd';
 const apiUrl = 'http://192.168.1.59:5007';
 const httpClient = fetchUtils.fetchJson;
 
@@ -15,10 +15,21 @@ export const dataProvider: DataProvider = {
         };
         const url = `${apiUrl}/${resource}?${stringify(query)}`;
 
-        return httpClient(url).then(({ headers, json }) => ({
-            data: json.data,
-            total: json.total,
-        }));
+        return httpClient(url).then((res: any) => {
+
+            const { json, status } = res
+            console.log(res)
+            if (status != 200) {
+               message.error(json.message)
+            }
+            return {
+                data: json.data,
+                total: json.total,
+            }
+        });
+
+
+
     },
 
     getOne: (resource, params) =>
@@ -57,11 +68,19 @@ export const dataProvider: DataProvider = {
         httpClient(`${apiUrl}/${resource}/${params.id}`, {
             method: 'PUT',
             body: JSON.stringify(params.data),
-        }).then(({ json }) => ({ data: json })),
+        }).then((res:any) => {
+            const { json,status } = res
+            if (status != 200) {
+                message.error(json.message)
+             }else if(json.message){
+                message.success(json.message)
+             }
+            return { data: json }
+        }),
 
     updateMany: (resource, params) => {
         const query = {
-            filter: JSON.stringify({ id: params.ids}),
+            filter: JSON.stringify({ id: params.ids }),
         };
         return httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
             method: 'PUT',
@@ -73,9 +92,18 @@ export const dataProvider: DataProvider = {
         httpClient(`${apiUrl}/${resource}`, {
             method: 'POST',
             body: JSON.stringify(params.data),
-        }).then(({ json }) => ({
-            data: { ...params.data, id: json.id } as any,
-        })),
+        }).then((res:any)=> {
+            const {json,status} = res
+        
+            if (status != 200) {
+                message.error(json.message)
+             }else if(json.message){
+                message.success(json.message)
+             }
+            return ({
+                data: json,
+            })
+        }),
 
     delete: (resource, params) =>
         httpClient(`${apiUrl}/${resource}/${params.id}`, {
@@ -84,7 +112,7 @@ export const dataProvider: DataProvider = {
 
     deleteMany: (resource, params) => {
         const query = {
-            filter: JSON.stringify({ id: params.ids}),
+            filter: JSON.stringify({ id: params.ids }),
         };
         return httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
             method: 'DELETE',
