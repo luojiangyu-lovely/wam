@@ -23,22 +23,23 @@ const MyAppBar = () => {
 
 const SettingsMenuItem = React.forwardRef((props, ref) => {
     const [open, setOpen] = React.useState(false);
+    const [update] = useUpdate();
     const { onClose } = useUserMenu();
     const validateUserCreation = (values) => {
         const errors = {};
         if (!values.password) {
-            errors.password = 'The password is required';
+            errors.password = '请填写密码！';
         }
         if (!values.passwordAgain) {
-            errors.passwordAgain = 'The passwordAgain is required';;
+            errors.passwordAgain = '请再次填写密码！';;
         } else if (values.password!=values.passwordAgain) {
            
-            errors.password = 'The two passwords are not the same';
-            errors.passwordAgain = 'The two passwords are not the same';
+            errors.password = '两次密码不相同！';
+            errors.passwordAgain = '两次密码不相同！';
         }
         return errors
     };
-    const [update] = useUpdate();
+    
 
     const postSave = (data)=>{
         const user =JSON.parse(localStorage.getItem('user')) 
@@ -64,10 +65,10 @@ const SettingsMenuItem = React.forwardRef((props, ref) => {
                     <Form validate={validateUserCreation} onSubmit={postSave}>
                         <Grid container>
                             <Grid item xs={12}>
-                                <TextInput source="password" />
+                                <TextInput source="password" label="密码" type="password"/>
                             </Grid>
                             <Grid item xs={12}>
-                                <TextInput source="passwordAgain" />
+                                <TextInput source="passwordAgain" label="确认密码" type="password"/>
                             </Grid>
                             
                             <Grid item xs={12}>
