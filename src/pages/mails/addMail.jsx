@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { usePermissions, Form, DateTimeInput, SelectInput, RadioButtonGroupInput, SaveButton, TextInput, useCreate } from "react-admin";
-import { Empty, Form as AntdForm, Button, Space, Select, InputNumber, Modal,message } from 'antd';
+import { Empty, Form as AntdForm, Button, Space, Select, InputNumber, Modal, message, Input } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Grid, Card, CardContent } from '@mui/material'
 import { RichTextInput } from 'ra-input-rich-text'
-import { itemsObj, itemsOption,server } from '../../CONST.ts'
+import { itemsObj, itemsOption, server } from '../../CONST.ts'
+const { TextArea } = Input;
 export default function AddMail() {
     const { isLoading, permissions } = usePermissions();
     const [create] = useCreate();
@@ -14,20 +15,20 @@ export default function AddMail() {
     const [sendTimeShow, setSendTimeShow] = useState(false)
     const itemsValues = AntdForm.useWatch((values) => values['rewards'], form);
     const required = (message = '必填') => (value) => value ? undefined : message;
-    const numColor = (num)=>{
-       if(num<10){
-        return '#7cb305'
-       }else if(num<100){
-        return '#4096ff'
-       }else if(num<1000){
-        return '#722ed1'
-       }else if(num<10000){
-        return '#eb2f96'
-       }else if(num<100000){
-        return '#faad14'
-       }else{
-        return '#f5222d'
-       }
+    const numColor = (num) => {
+        if (num < 10) {
+            return '#7cb305'
+        } else if (num < 100) {
+            return '#4096ff'
+        } else if (num < 1000) {
+            return '#722ed1'
+        } else if (num < 10000) {
+            return '#eb2f96'
+        } else if (num < 100000) {
+            return '#faad14'
+        } else {
+            return '#f5222d'
+        }
     }
 
     const sendTimeChange = (e) => {
@@ -41,17 +42,16 @@ export default function AddMail() {
 
     }
     const postForm = (val) => {
-        const {username} = JSON.parse(localStorage.getItem("user")) 
-        const {title,avatar_ids,content} = val
+        const { username } = JSON.parse(localStorage.getItem("user"))
+        const { avatar_ids } = val
 
-        let bt_title = title.replace(/<[^>]+>|&[^>]+;/g, "").trim();
-        let bt_content = content.replace(/<[^>]+>|&[^>]+;/g, "").trim();
-        const rewards = itemsValues?itemsValues.filter(el=>el?.id&&el?.number):[]
-        
-        val['avatar_ids']  =  avatar_ids?avatar_ids.split(';').map(el=>Number(el)):[]
 
-        const data = { ...val, 'rewards': rewards, isSend: 0, bt_title,applicant:username,bt_content }
-        if(new Date(val.transmission_time) - new Date()<0){
+        const rewards = itemsValues ? itemsValues.filter(el => el?.id && el?.number) : []
+
+        val['avatar_ids'] = avatar_ids ? avatar_ids.split(';').map(el => Number(el)) : []
+
+        const data = { ...val, 'rewards': rewards, isSend: 0, applicant: username }
+        if (new Date(val.transmission_time) - new Date() < 0) {
             message.error("定时时间小于了当前时间！")
             return
         }
@@ -82,7 +82,7 @@ export default function AddMail() {
                         </Grid>
 
                         <Grid item xs={12}>
-                            <TextInput source="avatar_ids" label='uid'/>
+                            <TextInput source="avatar_ids" label='uid' />
                         </Grid>
 
 
@@ -98,11 +98,12 @@ export default function AddMail() {
                             </Grid>
                         }
 
+
                         <Grid item xs={12}>
-                            <RichTextInput source="title" label='标题' validate={[required("请填写标题！")]} />
+                            <TextInput source="title" label='标题' validate={[required("请填写标题！")]} />
                         </Grid>
                         <Grid item xs={12}>
-                            <RichTextInput source="content" label='内容' validate={[required("请填写内容！")]} />
+                            <TextInput source="content" label='内容' validate={[required()]} sx={{ minWidth: 800 }} />
                         </Grid>
                         <Grid item xs={12}>
                             <AntdForm
@@ -112,6 +113,7 @@ export default function AddMail() {
                                 }}
                                 form={form}
                             >
+
                                 <AntdForm.List name="rewards"  >
                                     {(fields, { add, remove }) => (
                                         <>
@@ -174,8 +176,8 @@ export default function AddMail() {
 
                                 {itemsValues && itemsValues
                                     .map((el, index) => <div key={index}>
-                                       
-                                        <span>附件{index + 1}：</span><span>{itemsObj[el?.id]} <span style={{color:numColor(el?.number)}}>{el?.number}</span> </span>
+
+                                        <span>附件{index + 1}：</span><span>{itemsObj[el?.id]} <span style={{ color: numColor(el?.number) }}>{el?.number}</span> </span>
                                     </div>)}
 
 

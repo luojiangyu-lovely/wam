@@ -25,7 +25,7 @@ import { Empty, Modal, message, Tag } from 'antd';
 import { Button, Card, CardContent } from '@mui/material'
 import { ExclamationCircleFilled, CloseCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { Send } from '@mui/icons-material';
-import { RichTextField } from 'react-admin';
+
 
 import { itemsObj, sendStatus } from '../../CONST'
 
@@ -55,7 +55,7 @@ export const ExamineMailList = () => {
 
                         }}
                     />
-                    <RichTextField source="title" label="标题" />
+                    <TextField source="title" label="标题" />
                     <FunctionField
                         source="avatar_ids"
                         label='接收者'
@@ -134,7 +134,7 @@ export const ExamineMailList = () => {
 
 const mailSFilters = [
     <SelectInput source="isSend" label='邮件状态' alwaysOn choices={sendStatus} />,
-    <TextInput label="标题" source="bt_title" alwaysOn />,
+    <TextInput label="标题" source="title" alwaysOn />,
     <DateTimeInput source="start_time" label='开始时间' alwaysOn />,
     <DateTimeInput source="end_time" label='结束时间' alwaysOn />
 ]
@@ -145,8 +145,8 @@ const mailSFilters = [
 export const ExamineMailShow = () => {
     return <Show title="Role view">
         <SimpleShowLayout>
-            <RichTextField source="title" label="标题" />
-            <RichTextField source="content" label="内容" />
+            <TextField source="title" label="标题" />
+            <TextField source="content" label="内容" />
             <ArrayField source="rewards" label='道具'>
                 <Datagrid bulkActionButtons={false}>
                     <FunctionField source="id" label='道具名称' render={record => itemsObj[record?.id]} />

@@ -21,16 +21,14 @@ import {
  
     ExportButton,
    
-    SelectColumnsButton,
+    TextInput,
     TopToolbar,
   
 } from "react-admin";
 import { Card, CardContent, Button } from '@mui/material';
 import { Empty, message, Tag, Modal } from 'antd';
-import { RichTextInput } from 'ra-input-rich-text'
 import { ExclamationCircleFilled, CloseCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { server } from '../../CONST.ts'
-import { RichTextField } from 'react-admin';
 const { confirm } = Modal;
 
 
@@ -56,7 +54,7 @@ export const RaceLampsList = () => {
 
                     }}
                 />
-                <RichTextField source="content" label="内容" />
+                <TextField source="content" label="内容" />
                 <DateField source="start_time" showTime label='推送时间' />
                 <DateField source="end_time" showTime label='结束时间' />
                 <TextField source="interval" label='间隔' />
@@ -99,7 +97,7 @@ export const RaceLampsList = () => {
                     }}
                 />
                 <WrapperField label='操作'>
-                    <MyOpButton variant="contained" color="error" >删除</MyOpButton>
+                    <MyOpButton variant="contained" color="error" >停止</MyOpButton>
 
                 </WrapperField>
             </Datagrid>
@@ -145,7 +143,7 @@ export const RaceLampsCreate = () => {
             }
             record['start_time'] = new Date()
         }
-        record['bt_content'] = val.content.replace(/<[^>]+>|&[^>]+;/g, "").trim();
+       
         record['stop_time'] = (new Date(val.end_time).getTime()) / 1000
         record['is_stop'] = 0
         create('raceLamps', { data: record })
@@ -163,8 +161,9 @@ export const RaceLampsCreate = () => {
             <DateTimeInput source="end_time" label='结束时间' validate={[required("请选择结束时间！")]} />
 
 
-            <RichTextInput source="content" label='内容' validate={[required()]} />
+            
             <NumberInput source="interval" label='间隔时间' validate={[required()]} min={10} />
+            <TextInput source="content" label='内容' validate={[required()]} sx={{minWidth:800}}/>
         </SimpleForm>
     </Create>
 
