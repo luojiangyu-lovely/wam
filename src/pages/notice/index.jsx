@@ -11,7 +11,7 @@ const { confirm } = Modal;
 export const NoticeList = () => {
     const { isLoading, permissions } = usePermissions();
     return isLoading ? (<div>Waiting for permissions...</div>) : (
-        permissions.includes('notice') ? <List actions={<ListActions/>}>
+        permissions?.includes('notice') ? <List actions={<ListActions/>}>
             <Datagrid >
                 <TextField source="id" />
                 <FunctionField
@@ -70,8 +70,12 @@ export const NoticeCreate = () => {
     const postSend = (val) => {
 
         const record = { ...val }
+        const {title,notify} = val
+        record['bt_title'] = title.replace(/<[^>]+>|&[^>]+;/g, "").trim();
+        record['bt_notify'] = notify.replace(/<[^>]+>|&[^>]+;/g, "").trim();
         record['language'] = '40'
         record['is_default'] = 1
+       
         if (val.isNowSend == '0') {
             const delay_time = (new Date(val.transmission_time) - new Date()) / 1000
             if (delay_time < 0) {

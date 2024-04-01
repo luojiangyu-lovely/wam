@@ -24,7 +24,7 @@ export const BanList = () => {
     }
     return (
         isLoading ? (<div>Waiting for permissions...</div>) : (
-            permissions.includes('bans') ? <Form onSubmit={banSave}>
+            permissions?.includes('bans') ? <Form onSubmit={banSave}>
                 <Grid container>
                     <Grid item xs={12}>
                         <SelectInput label="区服" source="server_id" validate={[required()]}  choices={server} alwaysOn />,

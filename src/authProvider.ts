@@ -28,12 +28,14 @@ export const authProvider: AuthProvider = {
     return Promise.resolve(); 
   },
   checkError: () => Promise.resolve(),
-  checkAuth: () =>
-    localStorage.getItem("user") ? Promise.resolve() : Promise.reject(),
+  checkAuth: () =>{
+    return localStorage.getItem("user") ? Promise.resolve() : Promise.reject({ redirectTo: '/no-access' })
+  }
+    ,
   getPermissions: () => {
    
     const user:any = localStorage.getItem('user')
-    const {premissions} = JSON.parse(user)
+    const {premissions} = user?JSON.parse(user):[]
   
     return Promise.resolve(premissions);
   },

@@ -42,14 +42,15 @@ export default function AddMail() {
     }
     const postForm = (val) => {
         const {username} = JSON.parse(localStorage.getItem("user")) 
-        const {title,avatar_ids} = val
+        const {title,avatar_ids,content} = val
 
         let bt_title = title.replace(/<[^>]+>|&[^>]+;/g, "").trim();
+        let bt_content = content.replace(/<[^>]+>|&[^>]+;/g, "").trim();
         const rewards = itemsValues?itemsValues.filter(el=>el?.id&&el?.number):[]
         
         val['avatar_ids']  =  avatar_ids?avatar_ids.split(';').map(el=>Number(el)):[]
 
-        const data = { ...val, 'rewards': rewards, isSend: 0, bt_title,applicant:username }
+        const data = { ...val, 'rewards': rewards, isSend: 0, bt_title,applicant:username,bt_content }
         if(new Date(val.transmission_time) - new Date()<0){
             message.error("定时时间小于了当前时间！")
             return
@@ -72,7 +73,7 @@ export default function AddMail() {
 
 
     return isLoading ? (<div>Waiting for permissions...</div>)
-        : (permissions.includes('addMails')
+        : (permissions?.includes('addMails')
             ? (
                 <Form onSubmit={postForm}>
                     <Grid container>

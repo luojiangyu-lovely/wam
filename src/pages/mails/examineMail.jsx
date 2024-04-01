@@ -35,7 +35,7 @@ const { confirm } = Modal;
 export const ExamineMailList = () => {
     const { isLoading, permissions } = usePermissions();
     return isLoading ? (<div>Waiting for permissions...</div>)
-        : (permissions.includes('examineMails')
+        : (permissions?.includes('examineMails')
             ? (<List filters={mailSFilters} >
                 <Datagrid rowClick="false" bulkActionButtons={false}>
                     <TextField source="id" label='邮件id' />

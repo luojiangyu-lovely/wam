@@ -11,7 +11,7 @@ import {premissObj} from '../../CONST'
 export const UserList = () => {
     const { isLoading, permissions } = usePermissions();
     return isLoading ? (<div>Waiting for permissions...</div>) : (
-        permissions.includes('users') ? <List actions={<ListActions />}>
+        permissions?.includes('users') ? <List actions={<ListActions />}>
             <Datagrid rowClick="edit">
                 <TextField source="id" />
                 <TextField source="username" label="用户名" />
@@ -31,7 +31,7 @@ export const UserEdit = () => {
     return <Edit>
         <SimpleForm>
             <TextInput source="id" disabled />
-            <TextInput source="password" label="密码" />
+            {/* <TextInput source="password" label="密码" type='password'/> */}
             <TextInput source="username" label="用户名" />
             <SelectArrayInput  source="premissions" label="分配权限"  choices={[
                 { id: 'users', name: '账号模块' },

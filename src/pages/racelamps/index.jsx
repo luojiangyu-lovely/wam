@@ -37,7 +37,7 @@ const { confirm } = Modal;
 export const RaceLampsList = () => {
     const { isLoading, permissions } = usePermissions();
     return isLoading ? (<div>Waiting for permissions...</div>) : (
-        permissions.includes('raceLamps') ? <List actions={<ListActions />}>
+        permissions?.includes('raceLamps') ? <List actions={<ListActions />}>
             <Datagrid rowClick="edit">
                 <TextField source="id" />
                 <FunctionField
@@ -122,6 +122,7 @@ export const RaceLampsCreate = () => {
     const postSend = (val) => {
 
         const record = { ...val }
+        
         if (val.isNowSend == '0') {
             const delay_time = (new Date(val.start_time) - new Date()) / 1000
             const range_time = (new Date(val.end_time) - new Date(val.start_time))
@@ -144,6 +145,7 @@ export const RaceLampsCreate = () => {
             }
             record['start_time'] = new Date()
         }
+        record['bt_content'] = val.content.replace(/<[^>]+>|&[^>]+;/g, "").trim();
         record['stop_time'] = (new Date(val.end_time).getTime()) / 1000
         record['is_stop'] = 0
         create('raceLamps', { data: record })

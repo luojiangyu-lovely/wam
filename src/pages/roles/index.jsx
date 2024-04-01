@@ -6,7 +6,7 @@ import { Empty } from 'antd';
 export const RoleList = () => {
     const { isLoading, permissions } = usePermissions();
     return isLoading ? (<div>Waiting for permissions...</div>) : (
-        permissions.includes('roles') ? <List filters={roleSFilters} actions={null}>
+        permissions?.includes('roles') ? <List filters={roleSFilters} actions={null}>
             <Datagrid rowClick="show" bulkActionButtons={false}>
                 <MyTextField source="id" label='uid' />
                 <MyTextField source="qf" label='区服' />
