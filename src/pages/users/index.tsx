@@ -38,7 +38,7 @@ export const UserEdit = () => {
                 { id: 'roles', name: '角色查询' },
                 { id: 'bans', name: '封禁系统' },
                 { id: 'addMails', name: '新增邮件' },
-                { id: 'examineMails', name: '封禁系统' },
+                { id: 'examineMails', name: '邮件审核' },
                 { id: "raceLamps",name:'跑马灯'},
                 { id: 'notice', name: '公告' }
             ]} />
@@ -77,12 +77,12 @@ export const UserCreate = () => {
 
             <TextInput source="username" validate={[name1Validation]} label="用户名" />
             <TextInput source="usernameAgain" validate={[name2Validation]} label="用户名确认" />
-            <SelectArrayInput source="premissions" choices={[
+            <SelectArrayInput source="premissions" label='分配权限' choices={[
                 { id: 'users', name: '账号模块' },
                 { id: 'roles', name: '角色查询' },
                 { id: 'bans', name: '封禁系统' },
                 { id: 'addMails', name: '新增邮件' },
-                { id: 'examineMails', name: '封禁系统' },
+                { id: 'examineMails', name: '邮件审核' },
                 { id: "raceLamps",name:'跑马灯'},
                 { id: 'notice', name: '公告' }
             ]} />

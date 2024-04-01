@@ -59,7 +59,7 @@ export const premissObj: any = {
     'roles': '角色查询',
     "bans": '封禁系统',
     'addMails': '新增邮件',
-    'examineMails': '封禁系统',
+    'examineMails': '邮件审核',
     "raceLamps":'跑马灯',
     "notice":'公告'
 }
