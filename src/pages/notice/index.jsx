@@ -56,6 +56,7 @@ export const NoticeList = () => {
 
 export const NoticeCreate = () => {
     const [sendTimeShow, setSendTimeShow] = useState(false)
+    const [notify, setNotify] = useState('')
     const [create] = useCreate();
     const required = (message = '必填') => (value) => value ? undefined : message;
     const sendTimeChange = (e) => {
@@ -69,10 +70,10 @@ export const NoticeCreate = () => {
     const postSend = (val) => {
 
         const record = { ...val }
-
+      
         record['language'] = '40'
         record['is_default'] = 1
-
+        record['notify'] = notify
         if (val.isNowSend == '0') {
             const delay_time = (new Date(val.transmission_time) - new Date()) / 1000
             if (delay_time < 0) {
@@ -103,7 +104,21 @@ export const NoticeCreate = () => {
                     <TextInput source="title" label='标题' validate={[required()]} />
                 </Grid>
                 <Grid item xs={12}>
-                 <TextInput source="notify" label='内容' validate={[required()]} sx={{minWidth:800}}/>
+                    <div style={{display:'flex'}}>
+                        <div style={{fontSize:14,marginRight:4}} >内容:</div>
+                        <TextArea
+                            style={{
+                                maxWidth: 600,
+                            }}
+                            value={notify}
+                            onChange={(e) => setNotify(e.target.value)}
+                            autoSize={{
+                                minRows: 3,
+                                maxRows: 5,
+                            }}
+                        />
+                        </div>
+
                 </Grid>
             </Grid>
         </SimpleForm>

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-
+import { translateStr } from '../../utils'
 import {
     usePermissions,
     List,
@@ -12,14 +12,15 @@ import {
     FunctionField,
     DateField,
     WrapperField,
-    Show, 
+    Show,
     SimpleShowLayout,
-     ArrayField,
-      ShowButton, 
-      useRecordContext,
-       useUpdate, 
-       useRefresh, 
-       
+    useShowContext,
+    useRecordContext,
+    ArrayField,
+    ShowButton,
+    useUpdate,
+    useRefresh,
+
 } from "react-admin";
 import { Empty, Modal, message, Tag } from 'antd';
 import { Button, Card, CardContent } from '@mui/material'
@@ -146,7 +147,7 @@ export const ExamineMailShow = () => {
     return <Show title="Role view">
         <SimpleShowLayout>
             <TextField source="title" label="标题" />
-            <TextField source="content" label="内容" />
+            <ContentField />
             <ArrayField source="rewards" label='道具'>
                 <Datagrid bulkActionButtons={false}>
                     <FunctionField source="id" label='道具名称' render={record => itemsObj[record?.id]} />
@@ -155,9 +156,20 @@ export const ExamineMailShow = () => {
                 </Datagrid>
             </ArrayField>
         </SimpleShowLayout>
+
     </Show>
 }
+const ContentField = () => {
+    const { record } = useShowContext();
 
+    const newStr = translateStr(JSON.stringify(record.content))
+
+    return (
+        <React.Fragment>
+           <span style={{fontSize:12,color:"rgba(0, 0, 0, 0.6)"}}>内容</span>{ React.createElement('div', {dangerouslySetInnerHTML: {__html: newStr } })}
+        </React.Fragment>
+    );
+}
 
 const MyOpButton = (props) => {
     const { children, result } = props
@@ -202,8 +214,9 @@ const MyOpButton = (props) => {
     if (record['isSend']) return null;
     return <Button {...props} sx={{ marginRight: 2 }} onClick={reject} >{children}</Button>
 }
+
 const SendTimeField = () => {
-    const record = useRecordContext();
+    const record = useShowContext();
     if (record.result === 'reject') {
         return null
     } else if (record.isNowSend == '1') {

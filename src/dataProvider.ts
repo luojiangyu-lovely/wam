@@ -18,7 +18,7 @@ export const dataProvider: DataProvider = {
         return httpClient(url).then((res: any) => {
 
             const { json, status } = res
-            console.log(res)
+            
             if (status != 200) {
                message.error(json.message)
             }
