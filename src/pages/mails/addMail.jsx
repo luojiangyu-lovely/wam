@@ -145,16 +145,8 @@ export default function AddMail() {
                                         }}
                                     />
                                 </AntdForm.Item>
-                                <AntdForm.Item>
+                                <AntdForm.Item label='内容预览'>
                                     <div id='add_mail_container' style={{ border: "1px solid rgba(0, 0, 0, 0.23)", padding: "10px 10px", color: 'rgba(0, 0, 0, 0.23)', borderRadius: '10px', backgroundColor: '#f5f5f5', marginBottom: 30, minHeight: 60 }}>
-
-                                        {itemsValues && itemsValues
-                                            .map((el, index) => <div key={index}>
-
-                                                <span>附件{index + 1}：</span><span>{itemsObj[el?.id]} <span style={{ color: numColor(el?.number) }}>{el?.number}</span> </span>
-                                            </div>)}
-
-
                                     </div>
                                 </AntdForm.Item>
                                 <AntdForm.List name="rewards"  >
