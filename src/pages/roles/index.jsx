@@ -1,23 +1,37 @@
-import React, { useState } from 'react'
-import { List, Datagrid, TextField, Show, SimpleShowLayout, TextInput, SelectInput, usePermissions, FunctionField, BooleanField } from "react-admin";
+import React from 'react'
+import {
+    List,
+    Datagrid,
+    TextField,
+    Show,
+    SimpleShowLayout,
+    TextInput,
+    SelectInput,
+    usePermissions,
+    FunctionField,
+    BooleanField
+} from "react-admin";
 import { Card, CardContent } from '@mui/material';
-import {server} from '../../CONST'
+import { server } from '../../CONST'
 import { Empty } from 'antd';
+
+
 export const RoleList = () => {
     const { isLoading, permissions } = usePermissions();
     return isLoading ? (<div>Waiting for permissions...</div>) : (
-        permissions?.includes('roles') ? <List filters={roleSFilters} actions={null}>
-            <Datagrid rowClick="show" bulkActionButtons={false}>
-                <MyTextField source="id" label='uid' />
-                <MyTextField source="qf" label='区服' />
-                <MyTextField source="name" label='昵称' />
-            </Datagrid>
-        </List> : <Card><CardContent ><Empty description='暂无权限' /></CardContent></Card>)
+        permissions?.includes('roles')
+            ? <List filters={roleSFilters} actions={null}>
+                <Datagrid rowClick="show" bulkActionButtons={false}>
+                    <MyTextField source="id" label='uid' />
+                    <MyTextField source="qf" label='区服' />
+                    <MyTextField source="name" label='昵称' />
+                </Datagrid>
+            </List> : <Card>
+                <CardContent >
+                    <Empty description='暂无权限' />
+                </CardContent>
+            </Card>)
 }
-
-
-
-
 
 export const RoleShow = () => {
     return <Show title="Role view">
@@ -49,13 +63,10 @@ const MyStateField = ({ labels, source }) => {
                 case "chat":
                     return '禁言'
             }
-
         }} /></div>
         <div><span style={{ fontSize: 12, marginRight: 10, color: 'rgba(0, 0, 0, 0.6)' }}>{labels}</span><BooleanField source={source} /></div>
     </React.Fragment>)
 }
-
-
 
 const MyTextField = ({ labels, source }) => {
     return (
@@ -63,9 +74,8 @@ const MyTextField = ({ labels, source }) => {
             <div><span style={{ fontSize: 12, marginRight: 10, color: 'rgba(0, 0, 0, 0.6)' }}>{labels}</span><TextField label={false} source={source} /></div>
         </React.Fragment>
     )
-
-
 }
+
 const ReputationTextField = ({ labels, source }) => {
     return (
         <React.Fragment>
@@ -75,9 +85,8 @@ const ReputationTextField = ({ labels, source }) => {
             }} /></div>
         </React.Fragment>
     )
-
-
 }
+
 const TitleinfoField = ({ labels, source }) => {
     return (
         <React.Fragment>
@@ -88,14 +97,10 @@ const TitleinfoField = ({ labels, source }) => {
             <div style={{ marginLeft: 30 }}><span style={{ fontSize: 12, marginRight: 10, color: 'rgba(0, 0, 0, 0.6)' }}>城建</span><FunctionField source={source} render={record => record.title_info.building} /></div>
         </React.Fragment>
     )
-
-
 }
 
 const roleSFilters = [
-    
     <TextInput label="角色id" source="avatar_id" alwaysOn />,
-
     <TextInput label="角色昵称" source="avatar_name" alwaysOn />,
     <SelectInput label="区服" source="server_id" choices={server} alwaysOn />
 ]; 

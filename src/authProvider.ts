@@ -20,9 +20,7 @@ export const authProvider: AuthProvider = {
   })
   .then(auth => {
       localStorage.setItem('user', JSON.stringify(auth));
-  })
-
-  },
+  })},
   logout: () => {
     localStorage.removeItem("user");
     return Promise.resolve(); 
@@ -30,19 +28,15 @@ export const authProvider: AuthProvider = {
   checkError: () => Promise.resolve(),
   checkAuth: () =>{
     return localStorage.getItem("user") ? Promise.resolve() : Promise.reject({ redirectTo: '/no-access' })
-  }
-    ,
+  },
   getPermissions: () => {
-   
     const user:any = localStorage.getItem('user')
     const {premissions} = user?JSON.parse(user):[]
-  
     return Promise.resolve(premissions);
   },
   getIdentity: () => {
     const persistedUser = localStorage.getItem("user");
     const user = persistedUser ? JSON.parse(persistedUser) : null;
-
     return Promise.resolve(user);
   },
 };

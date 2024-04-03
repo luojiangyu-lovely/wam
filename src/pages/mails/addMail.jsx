@@ -1,6 +1,6 @@
 
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { usePermissions, Form, DateTimeInput, SelectInput, RadioButtonGroupInput, SaveButton, TextInput, useCreate } from "react-admin";
 import { Empty, Form as AntdForm, Button, Space, Select, InputNumber, Modal, message, Input } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
@@ -15,7 +15,8 @@ export default function AddMail() {
     const [form] = AntdForm.useForm();
     const [sendTimeShow, setSendTimeShow] = useState(false)
     const itemsValues = AntdForm.useWatch((values) => values['rewards'], form);
-    const required = (message = '必填') => (value) => value ? undefined : message;
+    const required = (message = '必填') => (value) => value ? undefined : message
+
     const numColor = (num) => {
         if (num < 10) {
             return '#7cb305'
@@ -39,21 +40,15 @@ export default function AddMail() {
         } else {
             setSendTimeShow(true)
         }
-
-
     }
+
     const postForm = async (val) => {
         try {
             const { content } = await form.validateFields();
-
             const { username } = JSON.parse(localStorage.getItem("user"))
             const { avatar_ids } = val
-
-
             const rewards = itemsValues ? itemsValues.filter(el => el?.id && el?.number) : []
-
             val['avatar_ids'] = avatar_ids ? avatar_ids.split(';').map(el => Number(el)) : []
-
             const data = { ...val, 'rewards': rewards, isSend: 0, applicant: username, content }
             if (new Date(val.transmission_time) - new Date() < 0) {
                 message.error("定时时间小于了当前时间！")
@@ -66,7 +61,6 @@ export default function AddMail() {
                             <div style={{ textAlign: 'center' }}>您的申请已提交，<span style={{ color: 'red' }}>id：{data.id}</span>
                             </div>
                             <div style={{ textAlign: 'center' }}>请及时通知审核人员进行操作</div>
-
                         </div>,
                         okText: '确定'
                     });
@@ -75,16 +69,13 @@ export default function AddMail() {
         } catch (errorInfo) {
             console.log('Failed:', errorInfo);
         }
-
-
     }
+
     const contentChange = (val) => {
       const newStr =   translateStr(JSON.stringify(val.target.value))
-
       const container = document.getElementById('add_mail_container')
       container.innerHTML = newStr
     }
-
 
     return isLoading ? (<div>Waiting for permissions...</div>)
         : (permissions?.includes('addMails')
@@ -94,12 +85,9 @@ export default function AddMail() {
                         <Grid item xs={12}>
                             <SelectInput label='区服' source="server_id" validate={[required("请选择区服！")]} choices={server} />
                         </Grid>
-
                         <Grid item xs={12}>
                             <TextInput source="avatar_ids" label='uid' />
                         </Grid>
-
-
                         <Grid item xs={12}>
                             <RadioButtonGroupInput label="发送时间" defaultValue={'1'} source="isNowSend" validate={[required("请选择发送方式！")]} choices={[
                                 { id: 0, name: '定时发送' },
@@ -111,34 +99,29 @@ export default function AddMail() {
                                 <DateTimeInput source="transmission_time" label='选择时间' validate={[required("请选择发送时间！")]} />
                             </Grid>
                         }
-
-
                         <Grid item xs={12}>
                             <TextInput source="title" label='标题' validate={[required("请填写标题！")]} />
                         </Grid>
-
                         <Grid item xs={12}>
                             <AntdForm
                                 name="dynamic_form_nest_item"
                                 style={{
                                     maxWidth: 600,
                                 }}
-                                form={form}
-                            >
+                                layout ='vertical'
+                                form={form}>
                                 <AntdForm.Item label="内容"
                                     name="content" rules={[
                                         {
                                             required: true,
                                             message: '请填写内容!',
-                                        },
+                                        }
                                     ]}>
-
                                     <TextArea
                                         onChange={contentChange}
                                         style={{
                                             maxWidth: 600,
                                         }}
-
                                         autoSize={{
                                             minRows: 3,
                                             maxRows: 5,
@@ -146,7 +129,8 @@ export default function AddMail() {
                                     />
                                 </AntdForm.Item>
                                 <AntdForm.Item label='内容预览'>
-                                    <div id='add_mail_container' style={{ border: "1px solid rgba(0, 0, 0, 0.23)", padding: "10px 10px", color: 'rgba(0, 0, 0, 0.23)', borderRadius: '10px', backgroundColor: '#f5f5f5', marginBottom: 30, minHeight: 60 }}>
+                                    <div id='add_mail_container' style={{ border: "1px solid rgba(0, 0, 0, 0.23)", padding: "10px 10px", color: 'rgba(0, 0, 0, 0.23)', borderRadius: '10px', backgroundColor: '#f5f5f5', marginBottom: 30, minHeight: 80 ,overflowWrap:'break-word'}}>
+                                    
                                     </div>
                                 </AntdForm.Item>
                                 <AntdForm.List name="rewards"  >
@@ -173,7 +157,6 @@ export default function AddMail() {
                                                         ]}
                                                     >
                                                         <Select
-
                                                             style={{ width: 200 }}
                                                             options={itemsOption}
                                                         />
@@ -198,19 +181,17 @@ export default function AddMail() {
                                                 <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />} block>
                                                     添加
                                                 </Button>
-
                                             </AntdForm.Item>
                                         </>
                                     )}
                                 </AntdForm.List>
-
                             </AntdForm>
                         </Grid>
 
 
 
                         <Grid item xs={4}>
-                            <div style={{ border: "1px solid rgba(0, 0, 0, 0.23)", padding: "10px 10px", color: 'rgba(0, 0, 0, 0.23)', borderRadius: '10px', backgroundColor: '#f5f5f5', marginBottom: 30, minHeight: 60 }}>
+                            <div style={{ border: "1px solid rgba(0, 0, 0, 0.23)", padding: "10px 10px", color: 'rgba(0, 0, 0, 0.23)', borderRadius: '10px', backgroundColor: '#f5f5f5', marginBottom: 30, minHeight: 60,width:600 }}>
 
                                 {itemsValues && itemsValues
                                     .map((el, index) => <div key={index}>

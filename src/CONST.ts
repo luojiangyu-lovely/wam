@@ -2,8 +2,8 @@
 export const qdOption: any[] = [
     { id: '1', name: 'TabTab' },
     { id: '2', name: '好游快报' }
-
 ]
+
 export const qdOptionObj: any = {
     "1": 'TabTab',
     "2": '好游快报'
@@ -43,6 +43,7 @@ export const itemsOption: any[] = [
         label: '抽卡抵用卷',
     }
 ]
+
 export const itemsObj: any = {
     1: '宝石',
     2: '黄金',
@@ -60,8 +61,8 @@ export const premissObj: any = {
     "bans": '封禁系统',
     'addMails': '新增邮件',
     'examineMails': '邮件审核',
-    "raceLamps":'跑马灯',
-    "notice":'公告'
+    "raceLamps": '跑马灯',
+    "notice": '公告'
 }
 
 export const server = [
@@ -71,8 +72,8 @@ export const server = [
 export const sendStatus = [
     { id: 2, name: '已作废' },
     { id: 1, name: '已发送' },
-    { id: 0, name: '未发送' },
-
+    { id: 0, name: '未发送' }
 ]
-export const sendStatusObj ={ 2: '已作废', 1: '已发送', 0: '未发送' }
+
+export const sendStatusObj = { 2: '已作废', 1: '已发送', 0: '未发送' }
 

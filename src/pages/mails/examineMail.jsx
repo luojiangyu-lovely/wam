@@ -20,21 +20,17 @@ import {
     ShowButton,
     useUpdate,
     useRefresh,
-
 } from "react-admin";
 import { Empty, Modal, message, Tag } from 'antd';
 import { Button, Card, CardContent } from '@mui/material'
 import { ExclamationCircleFilled, CloseCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { Send } from '@mui/icons-material';
-
-
 import { itemsObj, sendStatus } from '../../CONST'
-
-
-
 const { confirm } = Modal;
+
 export const ExamineMailList = () => {
     const { isLoading, permissions } = usePermissions();
+
     return isLoading ? (<div>Waiting for permissions...</div>)
         : (permissions?.includes('examineMails')
             ? (<List filters={mailSFilters} >
@@ -43,17 +39,13 @@ export const ExamineMailList = () => {
                     <FunctionField
                         source="response"
                         label='类型'
-                        // render={record => sendStatusObj[record.isSend]}
                         render={(record) => {
                             const { isNowSend } = record
-
                             if (isNowSend === "0") {
                                 return <Tag color="#f50">定时发送</Tag>
-                            }
-                            else {
+                            }else {
                                 return <Tag color="#108ee9">立即发送</Tag>
                             }
-
                         }}
                     />
                     <TextField source="title" label="标题" />
@@ -61,11 +53,9 @@ export const ExamineMailList = () => {
                         source="avatar_ids"
                         label='接收者'
                         render={record => {
-
                             if (record.avatar_ids.length === 0) return '全服'
                             return record.avatar_ids.join('|')
                         }
-
                         }
                     />
                     <FunctionField
@@ -74,22 +64,15 @@ export const ExamineMailList = () => {
                         // render={record => sendStatusObj[record.isSend]}
                         render={(record) => {
                             let isSend = record.isSend
-
                             if (isSend === 2) {
                                 return <Tag color="red">已拒绝</Tag>
-                            }
-                            else if (isSend === 1) {
+                            }else if (isSend === 1) {
                                 return <Tag color="green">已发送</Tag>
-                            } else {
+                            }else {
                                 return <Tag color="orange">未发送</Tag>
                             }
-
                         }}
                     />
-
-
-
-
                     <WrapperField label='发送时间'>
                         <SendTimeField></SendTimeField>
                     </WrapperField>
@@ -99,30 +82,22 @@ export const ExamineMailList = () => {
                     <TextField source="reviewer" label='审核人' />
                     <FunctionField
                         source="response"
-                        label='是否成功'
-                        // render={record => sendStatusObj[record.isSend]}
+                        label='是否成功' 
                         render={(record) => {
                             const { response } = record
                             if (!response) return null
                             let { response: { code, message } } = record
                             if (code === 20000) {
                                 return <Tag icon={<CheckCircleOutlined />} color="success">成功</Tag>
-                            }
-                            else {
+                            }else {
                                 return <Tag icon={<CloseCircleOutlined />} color="error">失败:{message}</Tag>
                             }
-
                         }}
                     />
-
                     <WrapperField label='操作'>
                         <MyOpButton variant="contained" color="error" result={'reject'}>拒绝</MyOpButton>
-
                         <MyOpButton variant="contained" color="success" result={'agree'} startIcon={<Send />}>发送</MyOpButton>
-
-
                         <ShowButton variant="contained" label='查看详情' size='medium'></ShowButton>
-
                     </WrapperField>
                 </Datagrid>
             </List>)
@@ -132,7 +107,6 @@ export const ExamineMailList = () => {
                 </CardContent>
             </Card>)
 }
-
 const mailSFilters = [
     <SelectInput source="isSend" label='邮件状态' alwaysOn choices={sendStatus} />,
     <TextInput label="标题" source="title" alwaysOn />,
@@ -141,9 +115,8 @@ const mailSFilters = [
 ]
 
 
-
-
 export const ExamineMailShow = () => {
+
     return <Show title="Role view">
         <SimpleShowLayout>
             <TextField source="title" label="标题" />
@@ -156,14 +129,12 @@ export const ExamineMailShow = () => {
                 </Datagrid>
             </ArrayField>
         </SimpleShowLayout>
-
     </Show>
 }
+
 const ContentField = () => {
     const { record } = useShowContext();
-
     const newStr = translateStr(JSON.stringify(record.content))
-
     return (
         <React.Fragment>
            <span style={{fontSize:12,color:"rgba(0, 0, 0, 0.6)"}}>内容</span>{ React.createElement('div', {dangerouslySetInnerHTML: {__html: newStr } })}
@@ -177,8 +148,6 @@ const MyOpButton = (props) => {
     const refresh = useRefresh();
     const [update] = useUpdate()
     const reject = () => {
-
-
         confirm({
             title: result === 'reject' ? '是否确认拒绝？' : '是否确认发送',
             icon: <ExclamationCircleFilled />,
@@ -211,12 +180,13 @@ const MyOpButton = (props) => {
 
 
     }
+
     if (record['isSend']) return null;
     return <Button {...props} sx={{ marginRight: 2 }} onClick={reject} >{children}</Button>
 }
-
 const SendTimeField = () => {
     const record = useShowContext();
+    
     if (record.result === 'reject') {
         return null
     } else if (record.isNowSend == '1') {

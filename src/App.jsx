@@ -23,9 +23,7 @@ import {RaceLampsList,RaceLampsCreate} from './pages/racelamps'
 import {NoticeList,NoticeCreate} from './pages/notice'
 
 export const App = () => {
-  // console.log(usePermissions())
   return <Admin dataProvider={dataProvider} authProvider={authProvider} layout={MyLayout}  >
-
     <Resource
       name="users"
       options={{ label: "用户管理" }}
@@ -60,8 +58,6 @@ export const App = () => {
       options={{ label: "邮件审核" }}
       show={ExamineMailShow}
       icon={FileSearchOutlined}>
-
-
     </Resource>
     <Resource
       name='raceLamps'
@@ -69,8 +65,6 @@ export const App = () => {
       options={{ label: "跑马灯" }}
       create={RaceLampsCreate}
       icon={DirectionsRunTwoTone}>
-
-
     </Resource>
     <Resource
       name='notice'
@@ -78,8 +72,6 @@ export const App = () => {
       options={{ label: "公告" }}
       create={NoticeCreate}
       icon={VolumeUpRounded}>
-
-
     </Resource>
   </Admin>
 }
