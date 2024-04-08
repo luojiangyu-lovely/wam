@@ -5,7 +5,7 @@ import { usePermissions, Form, DateTimeInput, SelectInput, RadioButtonGroupInput
 import { Empty, Form as AntdForm, Button, Space, Select, InputNumber, Modal, message, Input } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Grid, Card, CardContent } from '@mui/material'
-import {translateStr} from '../../utils'
+import { translateStr } from '../../utils'
 import { itemsObj, itemsOption, server } from '../../CONST.ts'
 const { TextArea } = Input;
 
@@ -72,9 +72,9 @@ export default function AddMail() {
     }
 
     const contentChange = (val) => {
-      const newStr =   translateStr(JSON.stringify(val.target.value))
-      const container = document.getElementById('add_mail_container')
-      container.innerHTML = newStr
+        const newStr = translateStr(JSON.stringify(val.target.value))
+        const container = document.getElementById('add_mail_container')
+        container.innerHTML = newStr
     }
 
     return isLoading ? (<div>Waiting for permissions...</div>)
@@ -108,10 +108,12 @@ export default function AddMail() {
                                 style={{
                                     maxWidth: 600,
                                 }}
-                                layout ='vertical'
+                                layout='vertical'
                                 form={form}>
-                                <AntdForm.Item label="内容"
-                                    name="content" rules={[
+                                <AntdForm.Item
+                                    label="内容"
+                                    name="content"
+                                    rules={[
                                         {
                                             required: true,
                                             message: '请填写内容!',
@@ -129,8 +131,8 @@ export default function AddMail() {
                                     />
                                 </AntdForm.Item>
                                 <AntdForm.Item label='内容预览'>
-                                    <div id='add_mail_container' style={{ border: "1px solid rgba(0, 0, 0, 0.23)", padding: "10px 10px", color: 'rgba(0, 0, 0, 0.23)', borderRadius: '10px', backgroundColor: '#f5f5f5', marginBottom: 30, minHeight: 80 ,overflowWrap:'break-word'}}>
-                                    
+                                    <div id='add_mail_container' style={{ border: "1px solid rgba(0, 0, 0, 0.23)", padding: "10px 10px", color: 'rgba(0, 0, 0, 0.23)', borderRadius: '10px', backgroundColor: '#f5f5f5', marginBottom: 30, minHeight: 80, overflowWrap: 'break-word' }}>
+
                                     </div>
                                 </AntdForm.Item>
                                 <AntdForm.List name="rewards"  >
@@ -191,7 +193,7 @@ export default function AddMail() {
 
 
                         <Grid item xs={4}>
-                            <div style={{ border: "1px solid rgba(0, 0, 0, 0.23)", padding: "10px 10px", color: 'rgba(0, 0, 0, 0.23)', borderRadius: '10px', backgroundColor: '#f5f5f5', marginBottom: 30, minHeight: 60,width:600 }}>
+                            <div style={{ border: "1px solid rgba(0, 0, 0, 0.23)", padding: "10px 10px", color: 'rgba(0, 0, 0, 0.23)', borderRadius: '10px', backgroundColor: '#f5f5f5', marginBottom: 30, minHeight: 60, width: 600 }}>
 
                                 {itemsValues && itemsValues
                                     .map((el, index) => <div key={index}>

@@ -16,7 +16,7 @@ import {
     DateField,
     TextInput
 } from "react-admin";
-import {translateStr} from '../../utils'
+import { translateStr, translateStrPost } from '../../utils'
 import { Card, CardContent, Grid } from '@mui/material';
 import { Empty, message, Tag, Input } from 'antd';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
@@ -89,7 +89,7 @@ export const NoticeCreate = () => {
         const record = { ...val }
         record['language'] = '40'
         record['is_default'] = 1
-        record['notify'] = notify
+        record['notify'] = translateStrPost(JSON.stringify(notify))
         if (val.isNowSend == '0') {
             const delay_time = (new Date(val.transmission_time) - new Date()) / 1000
             if (delay_time < 0) {
@@ -105,6 +105,7 @@ export const NoticeCreate = () => {
     }
 
     const notifyOnchange = (val) => {
+        setNotify(val.target.value)
         const newStr = translateStr(JSON.stringify(val.target.value))
         const container = document.getElementById('notice_container')
         container.innerHTML = newStr
@@ -126,13 +127,13 @@ export const NoticeCreate = () => {
                     <TextInput source="title" label='标题' validate={[required()]} />
                 </Grid>
                 <Grid item xs={12}>
-                    <div style={{marginBottom:24}}>
+                    <div style={{ marginBottom: 24 }}>
                         <div style={{ fontSize: 14, marginRight: 4 }} >内容:</div>
                         <TextArea
                             style={{
                                 maxWidth: 600,
                             }}
-                          
+                            value={notify}
                             onChange={notifyOnchange}
                             autoSize={{
                                 minRows: 3,
@@ -142,10 +143,10 @@ export const NoticeCreate = () => {
                     </div>
                 </Grid>
                 <Grid>
-                    <div style={{minWidth:600}}>
-                        <div style={{ fontSize: 14, marginRight: 4}} >内容预览:</div>
+                    <div style={{ minWidth: 600 }}>
+                        <div style={{ fontSize: 14, marginRight: 4 }} >内容预览:</div>
                         <div style={{ border: "1px solid rgba(0, 0, 0, 0.23)", padding: "10px 10px", color: 'rgba(0, 0, 0, 0.23)', borderRadius: '10px', backgroundColor: '#f5f5f5', marginBottom: 30, minHeight: 80 }}>
-                            <pre id='notice_container' style={{'margin':0}}></pre>
+                            <pre id='notice_container' style={{ 'margin': 0 }}></pre>
                         </div>
                     </div>
 

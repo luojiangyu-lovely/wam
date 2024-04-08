@@ -27,7 +27,7 @@ import { Card, CardContent, Button } from '@mui/material';
 import { Empty, message, Tag, Modal, Form } from 'antd';
 import { ExclamationCircleFilled, CloseCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { server } from '../../CONST.ts'
-import { translateStr } from '../../utils.js'
+import { translateStr, translateStrPost } from '../../utils.js'
 const { confirm } = Modal;
 
 
@@ -120,8 +120,6 @@ export const RaceLampsCreate = () => {
 
     const contentChange = (val) => {
         const newStr = translateStr(JSON.stringify(val.target.value))
-        console.log(1, JSON.stringify(val.target.value))
-        console.log(2, newStr)
         const container = document.getElementById('racelamps_container')
         container.innerHTML = newStr
     }
@@ -157,6 +155,7 @@ export const RaceLampsCreate = () => {
             }
             record['start_time'] = new Date()
         }
+        record['content']= translateStrPost(JSON.stringify(record['content']))
         record['stop_time'] = (new Date(val.end_time).getTime()) / 1000
         record['is_stop'] = 0
         create('raceLamps', { data: record })
@@ -183,8 +182,8 @@ export const RaceLampsCreate = () => {
                 }}
             />
             <Form.Item label='内容预览' style={{ width: 600 }}>
-                <div style={{ border: "1px solid rgba(0, 0, 0, 0.23)", padding: "10px 10px", color: 'rgba(0, 0, 0, 0.23)', borderRadius: '10px', backgroundColor: '#f5f5f5', marginBottom: 30, height:46 ,overflow:"hidden"}}>
-                    <pre id='racelamps_container' style={{'margin':0}}></pre>
+                <div style={{ border: "1px solid rgba(0, 0, 0, 0.23)", padding: "10px 10px", color: 'rgba(0, 0, 0, 0.23)', borderRadius: '10px', backgroundColor: '#f5f5f5', marginBottom: 30, height: 46, overflow: "hidden" }}>
+                    <pre id='racelamps_container' style={{ 'margin': 0 }}></pre>
                 </div>
             </Form.Item>
         </SimpleForm>
