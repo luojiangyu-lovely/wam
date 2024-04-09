@@ -1,7 +1,7 @@
 import { DataProvider, fetchUtils } from "react-admin";
 import { stringify } from "query-string";
 import {message } from 'antd';
-const apiUrl = 'http://192.168.1.59:5007';
+import {apiUrl} from './CONST'
 const httpClient = fetchUtils.fetchJson;
 
 export const dataProvider: DataProvider = {

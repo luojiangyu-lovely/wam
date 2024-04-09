@@ -1,12 +1,12 @@
-import { AuthProvider, HttpError ,fetchUtils} from "react-admin";
-
+import { AuthProvider  ,fetchUtils} from "react-admin";
+import {apiUrl} from './CONST'
 /**
  * This authProvider is only for test purposes. Don't use it in production.
  */
 
 export const authProvider: AuthProvider = {
   login: async({ username, password }) => {
-    const request = new Request('http://192.168.1.59:5007/login', {
+    const request = new Request(apiUrl +'/login', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
       headers: new Headers({ 'Content-Type': 'application/json' }),
@@ -25,11 +25,14 @@ export const authProvider: AuthProvider = {
     localStorage.removeItem("user");
     return Promise.resolve(); 
   },
-  checkError: () => Promise.resolve(),
+  checkError: () => {
+    return Promise.resolve()},
   checkAuth: () =>{
-    return localStorage.getItem("user") ? Promise.resolve() : Promise.reject({ redirectTo: '/no-access' })
+    console.log(localStorage.getItem("user"))
+    return localStorage.getItem("user") ? Promise.resolve() : Promise.reject({ redirectTo: '/login' })
   },
   getPermissions: () => {
+ 
     const user:any = localStorage.getItem('user')
     const {premissions} = user?JSON.parse(user):[]
     return Promise.resolve(premissions);
