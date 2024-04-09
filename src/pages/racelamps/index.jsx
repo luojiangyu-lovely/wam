@@ -27,7 +27,7 @@ import { Card, CardContent, Button } from '@mui/material';
 import { Empty, message, Tag, Modal, Form } from 'antd';
 import { ExclamationCircleFilled, CloseCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { server } from '../../CONST.ts'
-import { translateStr, translateStrPost } from '../../utils.js'
+import { translateStr, translateStrPostR } from '../../utils.js'
 const { confirm } = Modal;
 
 
@@ -155,12 +155,13 @@ export const RaceLampsCreate = () => {
             }
             record['start_time'] = new Date()
         }
-        record['content']= translateStrPost(JSON.stringify(record['content']))
+        record['content']= translateStrPostR(record['content'])
         record['stop_time'] = (new Date(val.end_time).getTime()) / 1000
         record['is_stop'] = 0
         create('raceLamps', { data: record })
     }
     return <Create>
+        
         <SimpleForm onSubmit={postSend}>
             <SelectInput label="区服" source="server_id" choices={server} validate={[required()]} />
             <RadioButtonGroupInput label="发送时间" defaultValue={'1'} source="isNowSend" validate={[required("请选择发送方式！")]} choices={[
@@ -184,6 +185,7 @@ export const RaceLampsCreate = () => {
             <Form.Item label='内容预览' style={{ width: 600 }}>
                 <div style={{ border: "1px solid rgba(0, 0, 0, 0.23)", padding: "10px 10px", color: 'rgba(0, 0, 0, 0.23)', borderRadius: '10px', backgroundColor: '#f5f5f5', marginBottom: 30, height: 46, overflow: "hidden" }}>
                     <pre id='racelamps_container' style={{ 'margin': 0 }}></pre>
+               
                 </div>
             </Form.Item>
         </SimpleForm>

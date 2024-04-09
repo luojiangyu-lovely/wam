@@ -16,7 +16,7 @@ import {
     DateField,
     TextInput
 } from "react-admin";
-import { translateStr, translateStrPost } from '../../utils'
+import { translateStr, translateStrPostN } from '../../utils'
 import { Card, CardContent, Grid } from '@mui/material';
 import { Empty, message, Tag, Input } from 'antd';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
@@ -89,7 +89,7 @@ export const NoticeCreate = () => {
         const record = { ...val }
         record['language'] = '40'
         record['is_default'] = 1
-        record['notify'] = translateStrPost(JSON.stringify(notify))
+        record['notify'] = translateStrPostN(notify)
         if (val.isNowSend == '0') {
             const delay_time = (new Date(val.transmission_time) - new Date()) / 1000
             if (delay_time < 0) {

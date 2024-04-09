@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useEffect } from 'react'
 import {
     List,
     Create,
@@ -13,6 +13,8 @@ import {
     FunctionField,
     TopToolbar,
     CreateButton,
+    useAuthenticated ,
+    useRedirect,
     ExportButton
 } from "react-admin";
 import { Card, CardContent } from '@mui/material';
@@ -21,6 +23,8 @@ import { premissObj } from '../../CONST'
 
 
 export const UserList = () => {
+    
+    useAuthenticated ()
     const { isLoading, permissions } = usePermissions();
     return isLoading ? (<div>Waiting for permissions...</div>) : (
         permissions?.includes('users') ? <List actions={<ListActions />}>

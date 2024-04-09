@@ -77,3 +77,4 @@ export const sendStatus = [
 
 export const sendStatusObj = { 2: '已作废', 1: '已发送', 0: '未发送' }
 
+export const apiUrl = 'http://192.168.1.59:5007';
