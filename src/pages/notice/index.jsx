@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React,{ useState } from 'react'
 import {
     List,
     Create,
@@ -44,7 +44,19 @@ export const NoticeList = () => {
                         }}
                     />
                     <TextField source="title" label="标题" />
-                    <TextField source="notify" label="内容" />
+                    {/* <TextField source="notify" label="内容" /> */}
+                    <FunctionField
+                        source="notify"
+                        label="内容"
+                        render={(record) => {
+                            const newStr = translateStr(JSON.stringify(record.origin_notify))
+                            return (
+                                <React.Fragment>
+                                    <pre >{React.createElement('div', { dangerouslySetInnerHTML: { __html: newStr } })}</pre>
+                                </React.Fragment>
+                            );
+                        }}
+                    />
                     <DateField source="send_time" showTime label='推送时间' />
                     <FunctionField
                         source="response"
@@ -89,6 +101,8 @@ export const NoticeCreate = () => {
         const record = { ...val }
         record['language'] = '40'
         record['is_default'] = 1
+        
+        record['origin_notify'] = notify
         record['notify'] = translateStrPostN(notify)
         if (val.isNowSend == '0') {
             const delay_time = (new Date(val.transmission_time) - new Date()) / 1000

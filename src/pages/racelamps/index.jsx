@@ -56,7 +56,8 @@ export const RaceLampsList = () => {
                         source="content"
                         label="内容"
                         render={(record) => {
-                            const newStr = translateStr(JSON.stringify(record.content))
+                            const newStr = translateStr(JSON.stringify(record.origin_content))
+                            console.log('显示',record.content)
                             return (
                                 <React.Fragment>
                                     <pre >{React.createElement('div', { dangerouslySetInnerHTML: { __html: newStr } })}</pre>
@@ -121,6 +122,7 @@ export const RaceLampsCreate = () => {
     const contentChange = (val) => {
         const newStr = translateStr(JSON.stringify(val.target.value))
         const container = document.getElementById('racelamps_container')
+        console.log('新增',val.target.value)
         container.innerHTML = newStr
     }
 
@@ -155,6 +157,7 @@ export const RaceLampsCreate = () => {
             }
             record['start_time'] = new Date()
         }
+        record['origin_content'] = record['content']
         record['content']= translateStrPostR(record['content'])
         record['stop_time'] = (new Date(val.end_time).getTime()) / 1000
         record['is_stop'] = 0
